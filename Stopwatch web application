@@ -1,1 +1,95 @@
-To build a stopwatch web application, you can use HTML, CSS, and JavaScript. HTML is used to structure the elements of the application. By implementing functions for starting, pausing, and resetting the stopwatch, as well as tracking and displaying lap times, users can accurately measure and record time intervals. With these technologies and functionalities, you can create an interactive and user-friendly stopwatch web application.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Stopwatch</h1>
+    <div class="stopwatch">
+      <p id="display">00:00:00</p>
+      <button id="startStop" onclick="startStop()">Start</button>
+      <button id="reset" onclick="reset()">Reset</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+}
+
+.stopwatch {
+  margin-top: 50px;
+}
+
+#display {
+  font-size: 2em;
+}
+
+button {
+  font-size: 1em;
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+
+
+
+
+let timer;
+let running = false;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+function startStop() {
+  if (running === false) {
+    running = true;
+    document.getElementById("startStop").innerHTML = "Stop";
+    timer = setInterval(updateDisplay, 1000);
+  } else {
+    running = false;
+    document.getElementById("startStop").innerHTML = "Start";
+    clearInterval(timer);
+  }
+}
+
+function reset() {
+  running = false;
+  document.getElementById("startStop").innerHTML = "Start";
+  clearInterval(timer);
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  updateDisplay();
+}
+
+function updateDisplay() {
+  seconds++;
+  if (seconds === 60) {
+    seconds = 0;
+    minutes++;
+    if (minutes === 60) {
+      minutes = 0;
+      hours++;
+    }
+  }
+  document.getElementById("display").innerHTML = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+}
+
+function formatTime(time) {
+  return time < 10 ? "0" + time : time;
+}
